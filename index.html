@@ -1,84 +1,91 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Enfolding Fortunes</title>
-  <meta name="description" content="Three folds of thought — Benjamin, Deleuze, Moten, Gladman." />
-  <style>
-    body {
-      margin: 0;
-      font-family: "Georgia", serif;
-      background: linear-gradient(180deg, #f5f2ec, #e9e5df 70%);
-      color: #222;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 24px;
-    }
-    .card {
-      max-width: 680px;
-      background: rgba(255,255,255,0.88);
-      border-radius: 16px;
-      padding: 28px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-    }
-    h1 {
-      font-size: 1.5rem;
-      text-align: center;
-      margin-top: 0;
-      letter-spacing: 0.5px;
-    }
-    .quotes {
-      display: grid;
-      gap: 20px;
-      margin-top: 20px;
-    }
-    blockquote {
-      margin: 0;
-      padding-left: 12px;
-      border-left: 3px solid #9d8fbc;
-      font-style: italic;
-      line-height: 1.5;
-      background: rgba(255,255,255,0.4);
-      border-radius: 6px;
-    }
-    cite {
-      display: block;
-      margin-top: 6px;
-      text-align: right;
-      font-style: normal;
-      font-size: 0.9rem;
-      color: #5a4d6b;
-    }
-    button {
-      margin-top: 20px;
-      display: block;
-      width: 100%;
-      background: #9d8fbc;
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-family: inherit;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #7b6d99;
-    }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h1>Enfolding Fortunes</h1>
-    <div id="quotes" class="quotes"></div>
-    <button id="reshuffle">unfold again</button>
-  </div>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enfolding Fortunes</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 20%, #1b1b2f 0%, #0d0d1a 80%);
+    color: #e6e6fa;
+    font-family: "Cormorant Garamond", serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
 
-  <script>
-    const QUOTES = [
+  h1 {
+    font-size: 2.5em;
+    margin-bottom: 0.5em;
+    color: #b09eff;
+    text-shadow: 0 0 10px rgba(180, 150, 255, 0.5);
+    z-index: 2;
+  }
+
+  .fortune {
+    font-size: 1.3em;
+    max-width: 600px;
+    margin: 1em;
+    line-height: 1.6;
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
+    z-index: 2;
+  }
+
+  button {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e6e6fa;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.5em 1.5em;
+    margin-top: 1em;
+    border-radius: 2em;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    z-index: 2;
+  }
+
+  button:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Particle (star) styling */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, transparent 70%);
+    pointer-events: none;
+    opacity: 0.7;
+    animation: drift linear infinite;
+  }
+
+  @keyframes drift {
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.7;
+    }
+    50% {
+      transform: translate(-10px, -20px) scale(1.05);
+      opacity: 0.9;
+    }
+    100% {
+      transform: translate(10px, 20px) scale(1);
+      opacity: 0.7;
+    }
+  }
+</style>
+</head>
+
+<body>
+<h1>Enfolding Fortunes</h1>
+<div id="fortune" class="fortune"></div>
+<button onclick="showFortune()">Reveal a New Fortune</button>
+
+<script>
+const fortunes = [
       {
         text: "Every epoch, in fact, not only dreams the one to follow but, in dreaming, precipitates its awakening.",
         author: "Walter Benjamin, *The Arcades Project*"
@@ -163,31 +170,36 @@
         text: "The dialectical image is where what has been comes together in a flash with the now to form a constellation.",
         author: "Walter Benjamin, *Arcades Project*"
       }
-    ];
+   ];
 
-    function getRandomThree(arr) {
-      const copy = [...arr];
-      const result = [];
-      for (let i = 0; i < 3; i++) {
-        const idx = Math.floor(Math.random() * copy.length);
-        result.push(copy.splice(idx, 1)[0]);
-      }
-      return result;
-    }
+// Always show exactly 3 random quotes
+function showFortune() {
+  const selected = [];
+  while (selected.length < 3) {
+    const r = fortunes[Math.floor(Math.random() * fortunes.length)];
+    if (!selected.includes(r)) selected.push(r);
+  }
+  document.getElementById("fortune").innerHTML = selected.join("<br><br>");
+}
 
-    function renderQuotes() {
-      const container = document.getElementById("quotes");
-      container.innerHTML = "";
-      const selected = getRandomThree(QUOTES);
-      selected.forEach(q => {
-        const el = document.createElement("blockquote");
-        el.innerHTML = `${q.text}<cite>— ${q.author}</cite>`;
-        container.appendChild(el);
-      });
-    }
+showFortune();
 
-    document.getElementById("reshuffle").addEventListener("click", renderQuotes);
-    renderQuotes();
-  </script>
+// Create floating star particles
+for (let i = 0; i < 60; i++) {
+  const particle = document.createElement("div");
+  particle.classList.add("particle");
+  document.body.appendChild(particle);
+
+  const size = Math.random() * 2 + 1; // smaller, like stars
+  particle.style.width = size + "px";
+  particle.style.height = size + "px";
+  particle.style.left = Math.random() * 100 + "vw";
+  particle.style.top = Math.random() * 100 + "vh";
+
+  const duration = 20 + Math.random() * 30; // slower drift
+  particle.style.animationDuration = duration + "s";
+  particle.style.animationDelay = Math.random() * 10 + "s";
+}
+</script>
 </body>
 </html>
