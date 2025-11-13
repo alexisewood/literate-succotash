@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>From the Fold</title>
 <style>
+  /* ===== Body & layout ===== */
   body {
     margin: 0;
-    height: 100vh;
+    min-height: 100vh;
     overflow: hidden;
     background: radial-gradient(circle at 50% 20%, #1b1b2f 0%, #0d0d1a 80%);
     color: #e6e6fa;
     font-family: "Cormorant Garamond", serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     text-align: center;
+    /* top padding + bottom padding so last quote doesn't get covered */
+    padding: 2vh 1em calc(120px + env(safe-area-inset-bottom)) 1em;
+    box-sizing: border-box;
   }
 
   h1 {
@@ -30,22 +30,22 @@
   .fortune {
     font-size: 1.3em;
     max-width: 600px;
-    margin: 1em;
+    margin: 0 auto 2em auto;
     line-height: 1.6;
     text-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
-    z-index: 2;
     opacity: 1;
     transition: opacity 1.2s ease;
-
-    /* Add extra bottom padding so last quote isn't hidden by button */
-    padding-bottom: calc(100px + env(safe-area-inset-bottom));
   }
 
   .hidden {
     opacity: 0;
   }
 
-  /* ===== Magical floating button ===== */
+  .quote {
+    margin-bottom: 1em;
+  }
+
+  /* ===== Floating button ===== */
   button {
     position: fixed;
     bottom: calc(2vh + env(safe-area-inset-bottom));
@@ -54,16 +54,13 @@
     background: rgba(255, 255, 255, 0.15);
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 999px; /* pill-shaped */
+    border-radius: 999px;
     padding: 16px 36px;
     font-size: 1.3rem;
     backdrop-filter: blur(6px);
     cursor: pointer;
     z-index: 10;
-    transition:
-      background 0.5s ease,
-      box-shadow 0.6s ease,
-      transform 0.6s ease;
+    transition: background 0.5s ease, box-shadow 0.6s ease, transform 0.6s ease;
     animation: floaty 4s ease-in-out infinite;
   }
 
@@ -79,7 +76,7 @@
     transform: translate(-50%, -8px) scale(1.08);
   }
 
-  /* Particle (star) styling */
+  /* ===== Particles / stars ===== */
   .particle {
     position: absolute;
     border-radius: 50%;
@@ -100,12 +97,10 @@
     50% { opacity: 1; }
   }
 
-  .quote {
-    margin-bottom: 1em;
-  }
 </style>
 </head>
 <body>
+
 <h1>From the Fold</h1>
 <div id="fortune" class="fortune"></div>
 <button onclick="fadeFortune()">plier. dlplier. replier.</button>
@@ -173,5 +168,6 @@ for (let i = 0; i < 60; i++) {
   particle.style.animationDelay = Math.random() * 10 + "s";
 }
 </script>
+
 </body>
 </html>
