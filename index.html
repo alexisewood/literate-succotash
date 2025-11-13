@@ -36,6 +36,9 @@
     z-index: 2;
     opacity: 1;
     transition: opacity 1.2s ease;
+
+    /* Add extra bottom padding so last quote isn't hidden by button */
+    padding-bottom: calc(100px + env(safe-area-inset-bottom));
   }
 
   .hidden {
@@ -83,13 +86,18 @@
     background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, transparent 70%);
     pointer-events: none;
     opacity: 0.7;
-    animation: drift linear infinite;
+    animation: drift linear infinite, twinkle ease-in-out infinite;
   }
 
   @keyframes drift {
     0% { transform: translate(0, 0) scale(1); opacity: 0.7; }
     50% { transform: translate(-10px, -20px) scale(1.05); opacity: 0.9; }
     100% { transform: translate(10px, 20px) scale(1); opacity: 0.7; }
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
   }
 
   .quote {
@@ -148,7 +156,7 @@ function fadeFortune() {
 // Initial display
 document.getElementById("fortune").innerHTML = getThreeFortunes();
 
-// Create drifting star particles
+// Create drifting + twinkling star particles
 for (let i = 0; i < 60; i++) {
   const particle = document.createElement("div");
   particle.classList.add("particle");
