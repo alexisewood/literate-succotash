@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>from the fold</title>
+<title>From the Fold</title>
 <style>
   body {
     margin: 0;
@@ -40,7 +40,8 @@
 
   .hidden {
     opacity: 0;
-    
+  }
+
   /* ===== Magical floating button ===== */
   button {
     position: fixed;
@@ -50,14 +51,12 @@
     background: rgba(255, 255, 255, 0.15);
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 999px; /*pill shaped*/
+    border-radius: 999px; /* pill-shaped */
     padding: 16px 36px;
     font-size: 1.3rem;
     backdrop-filter: blur(6px);
     cursor: pointer;
     z-index: 10;
-
-    /* Motion + transition */
     transition:
       background 0.5s ease,
       box-shadow 0.6s ease,
@@ -66,19 +65,15 @@
   }
 
   @keyframes floaty {
-    0%, 100% {
-      transform: translate(-50%, 0);
-    }
-    50% {
-      transform: translate(-50%, -6px);
-    }
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, -6px); }
   }
 
   button:hover,
   button:active {
     background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 0 18px rgba(255, 255, 255, 0.4);
-    transform: translate(-50%, -8px) scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -8px) scale(1.08);
   }
 
   /* Particle (star) styling */
@@ -92,24 +87,18 @@
   }
 
   @keyframes drift {
-    0% {
-      transform: translate(0, 0) scale(1);
-      opacity: 0.7;
-    }
-    50% {
-      transform: translate(-10px, -20px) scale(1.05);
-      opacity: 0.9;
-    }
-    100% {
-      transform: translate(10px, 20px) scale(1);
-      opacity: 0.7;
-    }
+    0% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+    50% { transform: translate(-10px, -20px) scale(1.05); opacity: 0.9; }
+    100% { transform: translate(10px, 20px) scale(1); opacity: 0.7; }
+  }
+
+  .quote {
+    margin-bottom: 1em;
   }
 </style>
 </head>
-
 <body>
-<h1>from the fold</h1>
+<h1>From the Fold</h1>
 <div id="fortune" class="fortune"></div>
 <button onclick="fadeFortune()">plier. dlplier. replier.</button>
 
@@ -138,19 +127,15 @@ const fortunes = [
   { text: "The dialectical image is where what has been comes together in a flash with the now to form a constellation.", author: "Walter Benjamin, *Arcades Project*" }
 ];
 
-// Pick exactly 3 random fortunes and format them for display
 function getThreeFortunes() {
   const selected = [];
   while (selected.length < 3) {
     const r = fortunes[Math.floor(Math.random() * fortunes.length)];
     if (!selected.includes(r)) selected.push(r);
   }
-  return selected.map(f => 
-    `<div class="quote">“${f.text}”<br><em>— ${f.author}</em></div>`
-  ).join("<br><br>");
+  return selected.map(f => `<div class="quote">“${f.text}”<br><em>— ${f.author}</em></div>`).join("<br><br>");
 }
 
-// Smooth fade transition for fortunes
 function fadeFortune() {
   const fortuneDiv = document.getElementById("fortune");
   fortuneDiv.classList.add("hidden");
@@ -163,7 +148,7 @@ function fadeFortune() {
 // Initial display
 document.getElementById("fortune").innerHTML = getThreeFortunes();
 
-// Create floating star particles
+// Create drifting star particles
 for (let i = 0; i < 60; i++) {
   const particle = document.createElement("div");
   particle.classList.add("particle");
