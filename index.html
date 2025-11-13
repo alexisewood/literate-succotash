@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title></title>
+<title>Enfolding Fortunes</title>
 <style>
   body {
     margin: 0;
@@ -34,6 +34,12 @@
     line-height: 1.6;
     text-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
     z-index: 2;
+    opacity: 1;
+    transition: opacity 1.2s ease;
+  }
+
+  .hidden {
+    opacity: 0;
   }
 
   button {
@@ -82,107 +88,57 @@
 <body>
 <h1>Enfolding Fortunes</h1>
 <div id="fortune" class="fortune"></div>
-<button onclick="showFortune()">plier. dlplier. replier.</button>
+<button onclick="fadeFortune()">plier. dlplier. replier.</button>
 
 <script>
 const fortunes = [
-      {
-        text: "Every epoch, in fact, not only dreams the one to follow but, in dreaming, precipitates its awakening.",
-        author: "Walter Benjamin, *The Arcades Project*"
-      },
-      {
-        text: "The fold is always between two folds, and the between is a fold itself.",
-        author: "Gilles Deleuze, *The Fold: Leibniz and the Baroque*"
-      },
-      {
-        text: "The baroque fold unfurls all the way to infinity.",
-        author: "Gilles Deleuze, *The Fold*"
-      },
-      {
-        text: "To think is to fold, to unfold, and to refold.",
-        author: "Gilles Deleuze"
-      },
-      {
-        text: "In every case, the fold traces an inside that is coextensive with the outside.",
-        author: "Gilles Deleuze, *The Fold*"
-      },
-      {
-        text: "The image of the past that flashes up at a moment of danger is one that folds time in on itself.",
-        author: "Walter Benjamin, *Theses on the Philosophy of History*"
-      },
-      {
-        text: "Memory is not an instrument for exploring the past but its theater.",
-        author: "Walter Benjamin, *One-Way Street*"
-      },
-      {
-        text: "Inside the fold, the subject disappears into what it cannot contain.",
-        author: "Fred Moten, *Consent Not to Be a Single Being*"
-      },
-      {
-        text: "I am interested in how the sentence folds itself around the body that writes it.",
-        author: "Renee Gladman, *Calamities*"
-      },
-      {
-        text: "Writing is a way of walking through a city that folds back into itself.",
-        author: "Renee Gladman, *Plans for Sentences*"
-      },
-      {
-        text: "The fold is the movement by which the soul becomes infinite.",
-        author: "Gilles Deleuze, *The Fold*"
-      },
-      {
-        text: "Perhaps the sentence is a surface for thinking’s continuous folding.",
-        author: "Renee Gladman, *Calamities*"
-      },
-      {
-        text: "Improvisation is the fold of thought and breath.",
-        author: "Fred Moten, *In the Break*"
-      },
-      {
-        text: "The envelope of the world is not closed; it enfolds us in its unfinishedness.",
-        author: "Gilles Deleuze, paraphrased"
-      },
-      {
-        text: "Every act of perception is already an act of remembering; to perceive is to fold time.",
-        author: "Walter Benjamin, paraphrased"
-      },
-      {
-        text: "Our movements are the folds of our thought; our gestures think us.",
-        author: "Fred Moten, *Consent Not to Be a Single Being*"
-      },
-      {
-        text: "In the sentence, I am always trying to reach the point where it folds into drawing.",
-        author: "Renee Gladman, *Calamities*"
-      },
-      {
-        text: "The monad contains the world in its folds.",
-        author: "Gilles Deleuze, after Leibniz"
-      },
-      {
-        text: "A city is a text folded by walking, a syntax of space and hesitation.",
-        author: "Renee Gladman, *Plans for Sentences*"
-      },
-      {
-        text: "To listen is to fold oneself into another’s breath.",
-        author: "Fred Moten, *In the Break*"
-      },
-      {
-        text: "The dialectical image is where what has been comes together in a flash with the now to form a constellation.",
-        author: "Walter Benjamin, *Arcades Project*"
-      }
-   ];
+  { text: "Every epoch, in fact, not only dreams the one to follow but, in dreaming, precipitates its awakening.", author: "Walter Benjamin, *The Arcades Project*" },
+  { text: "The fold is always between two folds, and the between is a fold itself.", author: "Gilles Deleuze, *The Fold: Leibniz and the Baroque*" },
+  { text: "The baroque fold unfurls all the way to infinity.", author: "Gilles Deleuze, *The Fold*" },
+  { text: "To think is to fold, to unfold, and to refold.", author: "Gilles Deleuze" },
+  { text: "In every case, the fold traces an inside that is coextensive with the outside.", author: "Gilles Deleuze, *The Fold*" },
+  { text: "The image of the past that flashes up at a moment of danger is one that folds time in on itself.", author: "Walter Benjamin, *Theses on the Philosophy of History*" },
+  { text: "Memory is not an instrument for exploring the past but its theater.", author: "Walter Benjamin, *One-Way Street*" },
+  { text: "Inside the fold, the subject disappears into what it cannot contain.", author: "Fred Moten, *Consent Not to Be a Single Being*" },
+  { text: "I am interested in how the sentence folds itself around the body that writes it.", author: "Renee Gladman, *Calamities*" },
+  { text: "Writing is a way of walking through a city that folds back into itself.", author: "Renee Gladman, *Plans for Sentences*" },
+  { text: "The fold is the movement by which the soul becomes infinite.", author: "Gilles Deleuze, *The Fold*" },
+  { text: "Perhaps the sentence is a surface for thinking’s continuous folding.", author: "Renee Gladman, *Calamities*" },
+  { text: "Improvisation is the fold of thought and breath.", author: "Fred Moten, *In the Break*" },
+  { text: "The envelope of the world is not closed; it enfolds us in its unfinishedness.", author: "Gilles Deleuze, paraphrased" },
+  { text: "Every act of perception is already an act of remembering; to perceive is to fold time.", author: "Walter Benjamin, paraphrased" },
+  { text: "Our movements are the folds of our thought; our gestures think us.", author: "Fred Moten, *Consent Not to Be a Single Being*" },
+  { text: "In the sentence, I am always trying to reach the point where it folds into drawing.", author: "Renee Gladman, *Calamities*" },
+  { text: "The monad contains the world in its folds.", author: "Gilles Deleuze, after Leibniz" },
+  { text: "A city is a text folded by walking, a syntax of space and hesitation.", author: "Renee Gladman, *Plans for Sentences*" },
+  { text: "To listen is to fold oneself into another’s breath.", author: "Fred Moten, *In the Break*" },
+  { text: "The dialectical image is where what has been comes together in a flash with the now to form a constellation.", author: "Walter Benjamin, *Arcades Project*" }
+];
 
-// Always show exactly 3 random quotes
-function showFortune() {
+// Pick exactly 3 random fortunes and format them for display
+function getThreeFortunes() {
   const selected = [];
   while (selected.length < 3) {
     const r = fortunes[Math.floor(Math.random() * fortunes.length)];
     if (!selected.includes(r)) selected.push(r);
   }
-  document.getElementById("fortune").innerHTML = selected.join("<br><br>");
+  return selected.map(f => 
+    `<div class="quote">“${f.text}”<br><em>— ${f.author}</em></div>`
+  ).join("<br><br>");
 }
 
-showFortune();
+// Smooth fade transition for fortunes
+function fadeFortune() {
+  const fortuneDiv = document.getElementById("fortune");
+  fortuneDiv.classList.add("hidden");
+  setTimeout(() => {
+    fortuneDiv.innerHTML = getThreeFortunes();
+    fortuneDiv.classList.remove("hidden");
+  }, 1000);
+}
+
+// Initial display
+document.getElementById("fortune").innerHTML = getThreeFortunes();
 
 // Create floating star particles
 for (let i = 0; i < 60; i++) {
@@ -190,13 +146,13 @@ for (let i = 0; i < 60; i++) {
   particle.classList.add("particle");
   document.body.appendChild(particle);
 
-  const size = Math.random() * 2 + 1; // smaller, like stars
+  const size = Math.random() * 2 + 1;
   particle.style.width = size + "px";
   particle.style.height = size + "px";
   particle.style.left = Math.random() * 100 + "vw";
   particle.style.top = Math.random() * 100 + "vh";
 
-  const duration = 20 + Math.random() * 30; // slower drift
+  const duration = 20 + Math.random() * 30;
   particle.style.animationDuration = duration + "s";
   particle.style.animationDelay = Math.random() * 10 + "s";
 }
