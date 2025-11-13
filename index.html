@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Enfolding Fortunes</title>
+  <meta name="description" content="Three folds of thought — Benjamin, Deleuze, Moten, Gladman." />
+  <style>
+    body {
+      margin: 0;
+      font-family: "Georgia", serif;
+      background: linear-gradient(180deg, #f5f2ec, #e9e5df 70%);
+      color: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .card {
+      max-width: 680px;
+      background: rgba(255,255,255,0.88);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 1.5rem;
+      text-align: center;
+      margin-top: 0;
+      letter-spacing: 0.5px;
+    }
+    .quotes {
+      display: grid;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    blockquote {
+      margin: 0;
+      padding-left: 12px;
+      border-left: 3px solid #9d8fbc;
+      font-style: italic;
+      line-height: 1.5;
+      background: rgba(255,255,255,0.4);
+      border-radius: 6px;
+    }
+    cite {
+      display: block;
+      margin-top: 6px;
+      text-align: right;
+      font-style: normal;
+      font-size: 0.9rem;
+      color: #5a4d6b;
+    }
+    button {
+      margin-top: 20px;
+      display: block;
+      width: 100%;
+      background: #9d8fbc;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #7b6d99;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Enfolding Fortunes</h1>
+    <div id="quotes" class="quotes"></div>
+    <button id="reshuffle">unfold again</button>
+  </div>
+
+  <script>
+    const QUOTES = [
+      {
+        text: "Every epoch, in fact, not only dreams the one to follow but, in dreaming, precipitates its awakening.",
+        author: "Walter Benjamin, *The Arcades Project*"
+      },
+      {
+        text: "The fold is always between two folds, and the between is a fold itself.",
+        author: "Gilles Deleuze, *The Fold: Leibniz and the Baroque*"
+      },
+      {
+        text: "The baroque fold unfurls all the way to infinity.",
+        author: "Gilles Deleuze, *The Fold*"
+      },
+      {
+        text: "To think is to fold, to unfold, and to refold.",
+        author: "Gilles Deleuze"
+      },
+      {
+        text: "In every case, the fold traces an inside that is coextensive with the outside.",
+        author: "Gilles Deleuze, *The Fold*"
+      },
+      {
+        text: "The image of the past that flashes up at a moment of danger is one that folds time in on itself.",
+        author: "Walter Benjamin, *Theses on the Philosophy of History*"
+      },
+      {
+        text: "Memory is not an instrument for exploring the past but its theater.",
+        author: "Walter Benjamin, *One-Way Street*"
+      },
+      {
+        text: "Inside the fold, the subject disappears into what it cannot contain.",
+        author: "Fred Moten, *Consent Not to Be a Single Being*"
+      },
+      {
+        text: "I am interested in how the sentence folds itself around the body that writes it.",
+        author: "Renee Gladman, *Calamities*"
+      },
+      {
+        text: "Writing is a way of walking through a city that folds back into itself.",
+        author: "Renee Gladman, *Plans for Sentences*"
+      },
+      {
+        text: "The fold is the movement by which the soul becomes infinite.",
+        author: "Gilles Deleuze, *The Fold*"
+      },
+      {
+        text: "Perhaps the sentence is a surface for thinking’s continuous folding.",
+        author: "Renee Gladman, *Calamities*"
+      },
+      {
+        text: "Improvisation is the fold of thought and breath.",
+        author: "Fred Moten, *In the Break*"
+      },
+      {
+        text: "The envelope of the world is not closed; it enfolds us in its unfinishedness.",
+        author: "Gilles Deleuze, paraphrased"
+      },
+      {
+        text: "Every act of perception is already an act of remembering; to perceive is to fold time.",
+        author: "Walter Benjamin, paraphrased"
+      },
+      {
+        text: "Our movements are the folds of our thought; our gestures think us.",
+        author: "Fred Moten, *Consent Not to Be a Single Being*"
+      },
+      {
+        text: "In the sentence, I am always trying to reach the point where it folds into drawing.",
+        author: "Renee Gladman, *Calamities*"
+      },
+      {
+        text: "The monad contains the world in its folds.",
+        author: "Gilles Deleuze, after Leibniz"
+      },
+      {
+        text: "A city is a text folded by walking, a syntax of space and hesitation.",
+        author: "Renee Gladman, *Plans for Sentences*"
+      },
+      {
+        text: "To listen is to fold oneself into another’s breath.",
+        author: "Fred Moten, *In the Break*"
+      },
+      {
+        text: "The dialectical image is where what has been comes together in a flash with the now to form a constellation.",
+        author: "Walter Benjamin, *Arcades Project*"
+      }
+    ];
+
+    function getRandomThree(arr) {
+      const copy = [...arr];
+      const result = [];
+      for (let i = 0; i < 3; i++) {
+        const idx = Math.floor(Math.random() * copy.length);
+        result.push(copy.splice(idx, 1)[0]);
+      }
+      return result;
+    }
+
+    function renderQuotes() {
+      const container = document.getElementById("quotes");
+      container.innerHTML = "";
+      const selected = getRandomThree(QUOTES);
+      selected.forEach(q => {
+        const el = document.createElement("blockquote");
+        el.innerHTML = `${q.text}<cite>— ${q.author}</cite>`;
+        container.appendChild(el);
+      });
+    }
+
+    document.getElementById("reshuffle").addEventListener("click", renderQuotes);
+    renderQuotes();
+  </script>
+</body>
+</html>
